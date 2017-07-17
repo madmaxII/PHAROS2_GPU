@@ -46,8 +46,8 @@ __device__ complex multiply(complex x, complex y){
     return z;
 }
 
-#define N_ANTS 2
-#define N_CHANS 2
+#define N_ANTS 24
+#define N_CHANS 24
 // Kernel definition
 __global__ void BeamFormer(complex *A, complex *B, complex *C, int num_chans, int num_ants)
 {
