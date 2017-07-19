@@ -27,6 +27,7 @@
 #include <cuda_runtime.h>
 
 #include <helper_cuda.h>
+#include <helper_functions.h> // helper functions for SDK examples
 /**
  * CUDA Kernel Device code
  *
@@ -52,6 +53,7 @@ __device__ complex multiply(complex x, complex y){
 __global__ void BeamFormer(complex *A, complex *B, complex *C, int num_chans, int num_ants)
 {
     int i = threadIdx.x;
+    if (i>N_CHANS) return;
     //int j = threadIdx.y;
     complex sum;
     sum.imag = sum.real = 0;
@@ -62,6 +64,7 @@ __global__ void BeamFormer(complex *A, complex *B, complex *C, int num_chans, in
     	sum.imag += mul.imag;
     }
     C[i] = sum;
+    printf("thread ID.x : %d C[%d] = %f + %fi\n ", threadIdx.x,i,C[i].real, C[i].imag);
     //C[threadIdx.x] = B[threadIdx.x];
     //__syncthreads();
 }
@@ -74,8 +77,8 @@ void constantInit(complex *data, int size, float val)
 {
     for (int i = 0; i < size; ++i)
     {
-        data[i].real = (float) i;
-        data[i].imag = (float) i;
+        data[i].real = (float) 1.00;
+        data[i].imag = (float) 1.00;
         printf ("data [i] = %f -- i = %d\n", data[i].real,i);
     }
 
@@ -118,7 +121,9 @@ main(void)
     // Error code to check return values for CUDA calls
     cudaError_t err = cudaSuccess;
     cudaDeviceReset();
-
+    StopWatchInterface *timer = 0;
+        sdkCreateTimer(&timer);
+        //sdkStartTimer(&timer);
     dim3 dimsA(N_ANTS, N_CHANS, 1);
     dim3 dimsB(N_CHANS, N_ANTS, 1);
     // Allocate host memory for matrices A and B
@@ -138,11 +143,12 @@ main(void)
 
         // Allocate device memory
         complex *d_A, *d_B, *d_C;
-
+        sdkStartTimer(&timer);
         // Allocate host matrix C
         dim3 dimsC(dimsB.x, dimsA.y, 1);
-        unsigned int mem_size_C = N_CHANS  * sizeof(complex);
+        unsigned long mem_size_C = N_CHANS  * sizeof(complex);
         complex *h_C = (complex *) malloc(mem_size_C);
+        printf("size C: %lld\n",mem_size_C);
     // Verify that allocations succeeded
     if (h_A == NULL || h_B == NULL || h_C == NULL)
     {
@@ -228,11 +234,13 @@ main(void)
         exit(EXIT_FAILURE);
     }
 
-
+    sdkStopTimer(&timer);
+    printf("Processing time: %f (ms)\n", sdkGetTimerValue(&timer));
+    sdkDeleteTimer(&timer);
     // Verify that the result vector is correct
-        for (int i = 0; i < 24; ++i)
+        for (int i = 0; i < N_CHANS; ++i)
         {
-        	printf ("Chan [i] = %f -- i = %d\n", h_C[i].imag,i);
+        	printf ("Chan [i] = %f + %fi -- index = %d\n",h_C[i].real, h_C[i].imag,i);
         }
 
 

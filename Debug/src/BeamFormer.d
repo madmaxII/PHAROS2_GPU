@@ -183,4 +183,28 @@ src/BeamFormer.o : ../src/BeamFormer.cu \
     /usr/include/x86_64-linux-gnu/c++/4.8/bits/basic_file.h \
     /usr/include/x86_64-linux-gnu/c++/4.8/bits/c++io.h \
     /usr/include/c++/4.8/bits/fstream.tcc \
-    /usr/include/strings.h
+    /usr/include/strings.h \
+    /usr/local/cuda-8.0/samples/common/inc/helper_functions.h \
+    /usr/local/cuda-8.0/samples/common/inc/exception.h \
+    /usr/include/c++/4.8/stdexcept \
+    /usr/include/c++/4.8/iostream \
+    /usr/include/c++/4.8/sstream \
+    /usr/include/c++/4.8/bits/sstream.tcc \
+    /usr/include/c++/4.8/vector \
+    /usr/include/c++/4.8/bits/stl_construct.h \
+    /usr/include/c++/4.8/ext/alloc_traits.h \
+    /usr/include/c++/4.8/bits/stl_uninitialized.h \
+    /usr/include/c++/4.8/bits/stl_vector.h \
+    /usr/include/c++/4.8/bits/stl_bvector.h \
+    /usr/include/c++/4.8/bits/vector.tcc \
+    /usr/include/c++/4.8/algorithm \
+    /usr/include/c++/4.8/utility \
+    /usr/include/c++/4.8/bits/stl_relops.h \
+    /usr/include/c++/4.8/bits/stl_algo.h \
+    /usr/include/c++/4.8/bits/algorithmfwd.h \
+    /usr/include/c++/4.8/bits/stl_heap.h \
+    /usr/include/c++/4.8/bits/stl_tempbuf.h \
+    /usr/local/cuda-8.0/samples/common/inc/helper_timer.h \
+    /usr/include/c++/4.8/ctime \
+    /usr/include/x86_64-linux-gnu/sys/time.h \
+    /usr/local/cuda-8.0/samples/common/inc/helper_image.h
